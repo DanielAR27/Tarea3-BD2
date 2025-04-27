@@ -1,0 +1,180 @@
+version: '3.9'
+
+services:
+  # CONFIG SERVERS
+  mongocfg1:
+    image: mongo:6.0.6
+    container_name: mongocfg1
+    command: mongod --configsvr --replSet mongors1conf --port 27017 --bind_ip_all
+    ports:
+      - "27117:27017"
+    volumes:
+      - mongocfg1-data:/data/db
+    networks:
+      - mongodb-network
+
+  mongocfg2:
+    image: mongo:6.0.6
+    container_name: mongocfg2
+    command: mongod --configsvr --replSet mongors1conf --port 27017 --bind_ip_all
+    ports:
+      - "27127:27017"
+    volumes:
+      - mongocfg2-data:/data/db
+    networks:
+      - mongodb-network
+
+  mongocfg3:
+    image: mongo:6.0.6
+    container_name: mongocfg3
+    command: mongod --configsvr --replSet mongors1conf --port 27017 --bind_ip_all
+    ports:
+      - "27137:27017"
+    volumes:
+      - mongocfg3-data:/data/db
+    networks:
+      - mongodb-network
+
+  # SHARD 1
+  mongors1n1:
+    image: mongo:6.0.6
+    container_name: mongors1n1
+    command: mongod --shardsvr --replSet mongors1 --port 27017 --bind_ip_all
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongors1n1-data:/data/db
+    networks:
+      - mongodb-network
+
+  mongors1n2:
+    image: mongo:6.0.6
+    container_name: mongors1n2
+    command: mongod --shardsvr --replSet mongors1 --port 27017 --bind_ip_all
+    ports:
+      - "27027:27017"
+    volumes:
+      - mongors1n2-data:/data/db
+    networks:
+      - mongodb-network
+
+  mongors1n3:
+    image: mongo:6.0.6
+    container_name: mongors1n3
+    command: mongod --shardsvr --replSet mongors1 --port 27017 --bind_ip_all
+    ports:
+      - "27037:27017"
+    volumes:
+      - mongors1n3-data:/data/db
+    networks:
+      - mongodb-network
+
+  # SHARD 2
+  mongors2n1:
+    image: mongo:6.0.6
+    container_name: mongors2n1
+    command: mongod --shardsvr --replSet mongors2 --port 27017 --bind_ip_all
+    ports:
+      - "27047:27017"
+    volumes:
+      - mongors2n1-data:/data/db
+    networks:
+      - mongodb-network
+
+  mongors2n2:
+    image: mongo:6.0.6
+    container_name: mongors2n2
+    command: mongod --shardsvr --replSet mongors2 --port 27017 --bind_ip_all
+    ports:
+      - "27057:27017"
+    volumes:
+      - mongors2n2-data:/data/db
+    networks:
+      - mongodb-network
+
+  mongors2n3:
+    image: mongo:6.0.6
+    container_name: mongors2n3
+    command: mongod --shardsvr --replSet mongors2 --port 27017 --bind_ip_all
+    ports:
+      - "27067:27017"
+    volumes:
+      - mongors2n3-data:/data/db
+    networks:
+      - mongodb-network
+
+  # SHARD 3
+  mongors3n1:
+    image: mongo:6.0.6
+    container_name: mongors3n1
+    command: mongod --shardsvr --replSet mongors3 --port 27017 --bind_ip_all
+    ports:
+      - "27077:27017"
+    volumes:
+      - mongors3n1-data:/data/db
+    networks:
+      - mongodb-network
+
+  mongors3n2:
+    image: mongo:6.0.6
+    container_name: mongors3n2
+    command: mongod --shardsvr --replSet mongors3 --port 27017 --bind_ip_all
+    ports:
+      - "27087:27017"
+    volumes:
+      - mongors3n2-data:/data/db
+    networks:
+      - mongodb-network
+
+  mongors3n3:
+    image: mongo:6.0.6
+    container_name: mongors3n3
+    command: mongod --shardsvr --replSet mongors3 --port 27017 --bind_ip_all
+    ports:
+      - "27097:27017"
+    volumes:
+      - mongors3n3-data:/data/db
+    networks:
+      - mongodb-network
+
+  # MONGOS ROUTER
+  mongos1:
+    image: mongo:6.0.6
+    container_name: mongos1
+    depends_on:
+      - mongocfg1
+      - mongocfg2
+      - mongocfg3
+    command: mongos --configdb mongors1conf/mongocfg1:27017,mongocfg2:27017,mongocfg3:27017 --port 27017 --bind_ip_all
+    ports:
+      - "27019:27017"
+    networks:
+      - mongodb-network
+      
+  data-generator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: data-generator
+    depends_on:
+      - mongos1
+    networks:
+      - mongodb-network
+
+volumes:
+  mongocfg1-data:
+  mongocfg2-data:
+  mongocfg3-data:
+  mongors1n1-data:
+  mongors1n2-data:
+  mongors1n3-data:
+  mongors2n1-data:
+  mongors2n2-data:
+  mongors2n3-data:
+  mongors3n1-data:
+  mongors3n2-data:
+  mongors3n3-data:
+
+networks:
+  mongodb-network:
+    driver: bridge
