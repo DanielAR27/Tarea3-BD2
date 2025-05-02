@@ -5,7 +5,7 @@ set -e
 
 # Levanta todos los contenedores necesarios para el clúster de MongoDB
 echo "==> Levantando contenedores MongoDB..."
-docker-compose up -d mongors1n1 mongors1n2 mongors1n3 mongors2n1 mongors2n2 mongors2n3 mongors3n1 mongors3n2 mongors3n3 mongocfg1 mongocfg2 mongocfg3 mongos1
+docker-compose up -d mongors1n1 mongors1n2 mongors1n3 mongors2n1 mongors2n2 mongors2n3 mongors3n1 mongors3n2 mongors3n3 mongocfg1 mongocfg2 mongocfg3 mongos1 mongos2 mongos3
 
 # Espera para dar tiempo a que los servicios arranquen
 echo "==> Esperando 15 segundos para que todos arranquen..."

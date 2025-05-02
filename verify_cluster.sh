@@ -17,6 +17,14 @@ docker exec -it mongors3n1 mongosh --eval 'rs.status()'
 echo "==> Verificando el router mongos1 (ping)..."
 docker exec -it mongos1 mongosh --eval 'db.adminCommand("ping")'
 
+# Verifica que el router mongos2 esté operativo
+echo "==> Verificando el router mongos2 (ping)..."
+docker exec -it mongos2 mongosh --eval 'db.adminCommand("ping")'
+
+# Verifica que el router mongos3 esté operativo
+echo "==> Verificando el router mongos3 (ping)..."
+docker exec -it mongos3 mongosh --eval 'db.adminCommand("ping")'
+
 # Verifica los shards registrados en el clúster
 echo "==> Verificando shards agregados:"
 docker exec -it mongos1 mongosh --eval 'sh.status()'

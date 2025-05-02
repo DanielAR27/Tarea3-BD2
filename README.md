@@ -80,6 +80,39 @@ docker exec -it mongos1 mongosh --eval 'db.getSiblingDB("travel_social").usuario
 docker exec -it mongos1 mongosh --eval 'db.getSiblingDB("travel_social").posts.find().limit(5).pretty()'
 ```
 
+## Consulta de Datos mediante script de Python
+
+### Requisitos:
+
+- Tener Python 3.9 o superior instalado
+- Instalar la dependencia de `pymongo`
+
+```bash
+pip install pymongo
+```
+
+### ¿Cómo correr el script?
+
+1. Asegúrese de que el clúster de MongoDB esté levantado, especialmente el contenedor `mongos1`
+
+2. Ejecute el siguiente script
+
+```bash
+python query_demo.py
+```
+
+> El script intentará conectarse al `mongos1` en `localhost:27019`. Asegúrese de que el puerto se encuentra expuesto y accesible.
+
+### ¿Qué cosas se pueden hacer?
+
+El menú intentará las siguientes funciones:
+
+- Ver posts de un usuario.
+- Ver comentarios de un usuario.
+- Ver comentarios de un post.
+- Buscar un usuario por nombre.
+
+
 ## Limpieza (opcional)
 
 Para detener y eliminar todos los contenedores y volúmenes:

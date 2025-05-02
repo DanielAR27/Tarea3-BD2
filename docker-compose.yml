@@ -150,6 +150,32 @@ services:
       - "27019:27017"
     networks:
       - mongodb-network
+
+  mongos2:
+    image: mongo:6.0.6
+    container_name: mongos2
+    depends_on:
+      - mongocfg1
+      - mongocfg2
+      - mongocfg3
+    command: mongos --configdb mongors1conf/mongocfg1:27017,mongocfg2:27017,mongocfg3:27017 --port 27017 --bind_ip_all
+    ports:
+      - "27029:27017"
+    networks:
+      - mongodb-network
+
+  mongos3:
+    image: mongo:6.0.6
+    container_name: mongos3
+    depends_on:
+      - mongocfg1
+      - mongocfg2
+      - mongocfg3
+    command: mongos --configdb mongors1conf/mongocfg1:27017,mongocfg2:27017,mongocfg3:27017 --port 27017 --bind_ip_all
+    ports:
+      - "27039:27017"
+    networks:
+      - mongodb-network
       
   data-generator:
     build:
