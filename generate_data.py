@@ -8,7 +8,9 @@ import time
 from datetime import datetime, timedelta
 
 # Configuración
-MONGO_URI =  "mongodb://mongos1:27017" # Nombre del servicio en docker-compose
+
+# URI de conexión al clúster MongoDB utilizando múltiples routers mongos para alta disponibilidad y failover automático
+MONGO_URI = "mongodb://mongos1:27017,mongos2:27017,mongos3:27017"
 DB_NAME = "travel_social"
 
 # Parámetros de generación

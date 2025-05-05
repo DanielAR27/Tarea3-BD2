@@ -11,7 +11,7 @@ Este documento describe los pasos correctos para levantar el clúster shardeado 
 
 ## Preparación Inicial
 
-1. Dar permisos de ejecución a los scripts:
+### 1. Dar permisos de ejecución a los scripts:
 
 ```bash
 chmod +x setup_cluster.sh
@@ -101,7 +101,9 @@ pip install pymongo
 python query_demo.py
 ```
 
-> El script intentará conectarse al `mongos1` en `localhost:27019`. Asegúrese de que el puerto se encuentra expuesto y accesible.
+> El script intentará conectarse al clúster de MongoDB mediante múltiples routers mongos (mongos1, mongos2, mongos3). 
+
+Asegúrese de que todos los servicios estén accesibles y que los puertos estén correctamente expuestos, para garantizar alta disponibilidad en caso de que alguno no responda.
 
 ### ¿Qué cosas se pueden hacer?
 

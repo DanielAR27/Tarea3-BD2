@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 
-client = MongoClient("mongodb://localhost:27019")  # puerto del mongos1
+# Conexión al clúster MongoDB a través de múltiples routers mongos para alta disponibilidad
+client = MongoClient("mongodb://localhost:27019,localhost:27029,localhost:27039")
 db = client["travel_social"]
 
 def parse_id(posible_id):
